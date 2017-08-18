@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Suricata</string>
+
+    <!-- LoginActivity -->
+    <string name="intro">with Raspberry PI</string>
+    <string name="exit">나가기</string>
+    <string name="login">로그인</string>
+    <string name="email">이메일 주소</string>
+    <string name="password">비밀번호</string>
+
+    <!-- Menu -->
+    <string name="start">탐지 시작</string>
+    <string name="stop">탐지 중단</string>
+    <string name="statistics">탐지 통계</string>
+    <string name="setting">설정</string>
+    <string name="logout">로그아웃</string>
+
+    <!-- Fragment -->
+    <string name="detection">공격 탐지</string>
+    <string name="system">시스템</string>
+
+    <!-- Dialog -->
+    <string name="positive">네</string>
+    <string name="negative">아니오</string>
+</resources>

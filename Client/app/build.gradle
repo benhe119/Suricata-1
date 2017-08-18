@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    def versionPropsFile = file('version.properties')
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def value = 0
+        def runTasks = gradle.startParameter.taskNames
+        if ('assemble' in runTasks || 'assembleRelease' in runTasks || 'aR' in runTasks) {
+            value = 1;
+        }
+
+        def versionMajor = 0
+        def versionMinor = 0
+        def versionPatch = versionProps['VERSION_PATCH'].toInteger() + value // Release 할 때만 증가
+        def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1 // Debug, Release 상관없이 무조건 증가
+        def versionNumber = versionProps['VERSION_NUMBER'].toInteger() + value
+
+        versionProps['VERSION_PATCH'] = versionPatch.toString()
+        versionProps['VERSION_BUILD'] = versionBuild.toString()
+        versionProps['VERSION_NUMBER'] = versionNumber.toString()
+
+        versionProps.store(versionPropsFile.newWriter(), null) // 업데이트된 버전 정보를 다시 version.properties 파일에 쓰기
+
+        defaultConfig {
+            applicationId "minux.suricata"
+            minSdkVersion 23
+            targetSdkVersion 25
+            versionCode versionNumber
+            versionName "${versionMajor}.${versionMinor}.${versionPatch} (build ${versionBuild})"
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.each { output ->
+                def fileNaming = "app/build/outputs/apk/Suricata" // apk 파일이 생성되는 폴더 및 파일 이름
+                def outputFile = output.outputFile
+                if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                    output.outputFile = new File(getProject().getRootDir(), "${fileNaming} v${versionMajor}.${versionMinor}.${versionPatch} ${outputFile.name.substring(4)}")
+                }
+            }
+        }
+    } else {
+        throw new GradleException("Could not read version.properties!")
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:support-v4:25.3.1'
+    testCompile 'junit:junit:4.12'
+    compile 'com.google.firebase:firebase-core:10.2.1'
+    compile 'com.google.firebase:firebase-auth:10.2.1'
+    compile 'com.google.firebase:firebase-database:10.2.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+}
+
+apply plugin: 'com.google.gms.google-services'

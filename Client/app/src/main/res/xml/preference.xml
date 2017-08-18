@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+    <PreferenceCategory android:title="연결">
+        <Preference
+            android:key="email"
+            android:title="이메일" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="탐지 알림">
+        <SwitchPreference
+            android:key="notification"
+            android:title="알림" />
+        <RingtonePreference
+            android:dependency="notification"
+            android:key="ringtone"
+            android:ringtoneType="notification"
+            android:showSilent="true"
+            android:title="알림음" />
+        <SwitchPreference
+            android:dependency="notification"
+            android:key="vibration"
+            android:summaryOff="꺼짐"
+            android:summaryOn="켬"
+            android:title="진동" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Oinkmaster">
+        <Preference
+            android:key="updatetime"
+            android:title="시간" />
+        <ListPreference
+            android:dialogTitle="반복"
+            android:entries="@array/day_korean"
+            android:entryValues="@array/day_english"
+            android:key="updateday"
+            android:title="반복" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="기타">
+        <Preference
+            android:key="reset"
+            android:title="초기화" />
+        <Preference
+            android:key="version"
+            android:title="버전 정보" />
+    </PreferenceCategory>
+</PreferenceScreen>
