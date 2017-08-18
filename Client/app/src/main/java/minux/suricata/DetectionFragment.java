@@ -14,7 +14,6 @@ public class DetectionFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("user").child(getUid()).child("preference").addListenerForSingleValueEvent(velPreference);
         databaseReference.child("message").child("detection").addChildEventListener(celMessage);
     }
 
@@ -30,13 +29,12 @@ public class DetectionFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         databaseReference.child("user").child(getUid()).child("preference").addListenerForSingleValueEvent(velPreference);
-        databaseReference.child("message").child("detection").addChildEventListener(celMessage);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        databaseReference.child("user").child(getUid()).child("preference").removeEventListener(velPreference);
         databaseReference.child("message").child("detection").removeEventListener(celMessage);
+        databaseReference.child("user").child(getUid()).child("preference").removeEventListener(velPreference);
     }
 }

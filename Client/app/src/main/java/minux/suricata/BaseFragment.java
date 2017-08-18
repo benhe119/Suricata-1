@@ -63,9 +63,7 @@ public class BaseFragment extends Fragment {
             content = messageClass.getContent();
             try {
                 addMessage(date, time, priority, title, content);
-                if (notificationBuilder == null) {
-                    showNotification(setFragmentName(priority));
-                }
+                showNotification(setFragmentName(priority));
             } catch (Exception ignored) {
 
             }
@@ -91,7 +89,7 @@ public class BaseFragment extends Fragment {
 
         }
     };
-    private NotificationCompat.Builder notificationBuilder;
+    private int fragmentNameFlag;
     public ScrollView scrollView;
     public LinearLayout linearLayout;
 
@@ -142,13 +140,14 @@ public class BaseFragment extends Fragment {
     }
 
     private void showNotification(String fragmentName) {
-        notificationBuilder = new NotificationCompat.Builder(getActivity())
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity())
                 .setSmallIcon(R.drawable.ic_white_notification_48)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(fragmentName)
                 .setContentText("새로운 메시지가 도착했습니다.")
                 .setContentIntent(PendingIntent.getActivity(getActivity(), 0, new Intent(getActivity(), MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_UPDATE_CURRENT))
-                .setAutoCancel(true);
+                .setAutoCancel(true)
+                .setOnlyAlertOnce(true);
 
         if (notification) {
             notificationBuilder.setSound(Uri.parse(ringtone));
@@ -156,13 +155,15 @@ public class BaseFragment extends Fragment {
                 notificationBuilder.setVibrate(new long[]{625, 375}); // delay, vibrate
             }
         }
-        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).notify(0, notificationBuilder.build());
+        ((NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE)).notify(fragmentNameFlag, notificationBuilder.build());
     }
 
     private String setFragmentName(String priority) { // 시스템 메시지인지 공격 탐지 메시지인지 판단하는 함수
         if (priority.equals("0")) {
+            fragmentNameFlag = 0;
             return "시스템";
         } else {
+            fragmentNameFlag = 1;
             return "공격 탐지";
         }
     }
