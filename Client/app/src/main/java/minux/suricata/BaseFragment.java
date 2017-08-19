@@ -111,15 +111,15 @@ public class BaseFragment extends Fragment {
         switch (priority) {
             case "0": // 시스템 메시지
                 if (title.equals("Notice"))
-                    return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_notification_60);
+                    return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_notification);
                 if (title.equals("Error"))
-                    return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_error_60);
+                    return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_error);
             case "1":
-                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_one_96);
+                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_one);
             case "2":
-                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_two_96);
+                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_two);
             case "3":
-                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_three_96);
+                return ContextCompat.getDrawable(getActivity(), R.drawable.ic_black_three);
         }
         return null;
     }
@@ -141,7 +141,7 @@ public class BaseFragment extends Fragment {
 
     private void showNotification(String fragmentName) {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getActivity())
-                .setSmallIcon(R.drawable.ic_white_notification_48)
+                .setSmallIcon(R.drawable.ic_white_notification)
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle(fragmentName)
                 .setContentText("새로운 메시지가 도착했습니다.")
