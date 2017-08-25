@@ -20,7 +20,7 @@
             android:src="@drawable/bg_suricata" />
 
         <TextView
-            android:id="@+id/tvIntro"
+            android:id="@+id/tv_login_intro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/intro"
@@ -28,7 +28,7 @@
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/et_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
@@ -36,7 +36,7 @@
             android:maxLines="1" />
 
         <EditText
-            android:id="@+id/etPassword"
+            android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
@@ -48,14 +48,14 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/bExit"
+                android:id="@+id/b_login_exit"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:text="@string/exit" />
 
             <Button
-                android:id="@+id/bLogin"
+                android:id="@+id/b_login_signin"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:text="@string/login" />

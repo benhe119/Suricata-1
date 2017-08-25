@@ -34,27 +34,27 @@ public class LoginActivity extends BaseActivity {
         /* 부제목 */
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder("with Raspberry PI");
         spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#C7053D")), 5, 17, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((TextView) findViewById(R.id.tvIntro)).setText(spannableStringBuilder);
+        ((TextView) findViewById(R.id.tv_login_intro)).setText(spannableStringBuilder);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
         firebaseAuth = FirebaseAuth.getInstance();
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etPassword = (EditText) findViewById(R.id.etPassword);
+        etEmail = (EditText) findViewById(R.id.et_login_email);
+        etPassword = (EditText) findViewById(R.id.et_login_password);
 
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.bExit:
+                    case R.id.b_login_exit:
                         finish();
                         break;
-                    case R.id.bLogin:
+                    case R.id.b_login_signin:
                         logIn();
                 }
             }
         };
-        findViewById(R.id.bExit).setOnClickListener(onClickListener);
-        findViewById(R.id.bLogin).setOnClickListener(onClickListener);
+        findViewById(R.id.b_login_exit).setOnClickListener(onClickListener);
+        findViewById(R.id.b_login_signin).setOnClickListener(onClickListener);
     }
 
     private void logIn() {
