@@ -5,14 +5,18 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -23,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends BaseActivity {
+    private DrawerLayout drawerLayout;
     private ViewPager viewPager;
     private DatabaseReference databaseReference;
     private ValueEventListener velState = new ValueEventListener() { // 현재 상태(state)를 파악하는 리스너
@@ -45,6 +50,67 @@ public class MainActivity extends BaseActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_white_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationview);
+        navigationView.setItemIconTintList(null);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                item.setCheckable(false);
+                drawerLayout.closeDrawers();
+
+                switch (item.getItemId()) {
+                    case R.id.menu_option_start:
+                        if (state.equals("ready")) {
+                            state = "start";
+                            databaseReference.child("state").setValue(state);
+                        } else {
+                            Toast.makeText(MainActivity.this, "준비 상태가 아닙니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case R.id.menu_option_stop:
+                        if (state.equals("detecting")) {
+                            new AlertDialog.Builder(MainActivity.this).setTitle("서버 동작 선택")
+                                    .setItems(new CharSequence[]{"탐지 중지", "서버 종료", "서버 재시작"}, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            switch (which) {
+                                                case 0:
+                                                    Toast.makeText(getApplicationContext(), "탐지를 중지합니다.", Toast.LENGTH_SHORT).show();
+                                                    state = "stop";
+                                                    break;
+                                                case 1:
+                                                    Toast.makeText(getApplicationContext(), "서버를 종료합니다.", Toast.LENGTH_SHORT).show();
+                                                    state = "shutdown";
+                                                    break;
+                                                case 2:
+                                                    Toast.makeText(getApplicationContext(), "서버를 재시작합니다.", Toast.LENGTH_SHORT).show();
+                                                    state = "reboot";
+                                                    break;
+                                            }
+                                            databaseReference.child("state").setValue(state);
+                                        }
+                                    }).show();
+                        } else {
+                            Toast.makeText(MainActivity.this, "탐지중이 아닙니다.", Toast.LENGTH_SHORT).show();
+                        }
+                        break;
+                    case R.id.menu_option_statistics:
+                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
+                        break;
+                    case R.id.menu_option_setting:
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        break;
+                    case R.id.menu_option_logout:
+                        databaseReference.child("user").child(getUid()).child("logon").setValue("false");
+                        finish();
+                }
+                return true;
+            }
+        });
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.detection));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.system));
@@ -76,63 +142,11 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                invalidateOptionsMenu();
-                break;
-            case R.id.menu_option_start:
-                if (state.equals("ready")) {
-                    state = "start";
-                    databaseReference.child("state").setValue(state);
-                } else {
-                    Toast.makeText(MainActivity.this, "준비 상태가 아닙니다.", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.menu_option_stop:
-                if (state.equals("detecting")) {
-                    CharSequence listitem[] = new CharSequence[]{"탐지 중지", "서버 종료", "서버 재시작"};
-                    new AlertDialog.Builder(this).setTitle("서버 동작 선택")
-                            .setItems(listitem, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    switch (which) {
-                                        case 0:
-                                            Toast.makeText(getApplicationContext(), "탐지를 중지합니다.", Toast.LENGTH_SHORT).show();
-                                            state = "stop";
-                                            break;
-                                        case 1:
-                                            Toast.makeText(getApplicationContext(), "서버를 종료합니다.", Toast.LENGTH_SHORT).show();
-                                            state = "shutdown";
-                                            break;
-                                        case 2:
-                                            Toast.makeText(getApplicationContext(), "서버를 재시작합니다.", Toast.LENGTH_SHORT).show();
-                                            state = "reboot";
-                                            break;
-                                    }
-                                    databaseReference.child("state").setValue(state);
-                                }
-                            }).show();
-                } else {
-                    Toast.makeText(MainActivity.this, "탐지중이 아닙니다.", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.menu_option_statistics:
-                startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
-                break;
-            case R.id.menu_option_setting:
-                startActivity(new Intent(MainActivity.this, SettingActivity.class));
-                break;
-            case R.id.menu_option_logout:
-                databaseReference.child("user").child(getUid()).child("logon").setValue("false");
-                finish();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+        } else {
+            drawerLayout.openDrawer(GravityCompat.START);
         }
         return true;
     }
@@ -145,7 +159,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers();
+        }
     }
 
     @Override

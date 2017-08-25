@@ -1,28 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/menu_option"
-        android:icon="@drawable/ic_white_three_dots_96"
-        android:orderInCategory="2"
-        android:title=""
-        app:showAsAction="ifRoom">
-        <menu>
-            <item
-                android:id="@+id/menu_option_start"
-                android:title="@string/start" />
-            <item
-                android:id="@+id/menu_option_stop"
-                android:title="@string/stop" />
-            <item
-                android:id="@+id/menu_option_statistics"
-                android:title="@string/statistics" />
-            <item
-                android:id="@+id/menu_option_setting"
-                android:title="@string/setting" />
-            <item
-                android:id="@+id/menu_option_logout"
-                android:title="@string/logout" />
-        </menu>
-    </item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_option_start"
+            android:title="@string/start" />
+        <item
+            android:id="@+id/menu_option_stop"
+            android:title="@string/stop" />
+        <item
+            android:id="@+id/menu_option_statistics"
+            android:title="@string/statistics" />
+        <item
+            android:id="@+id/menu_option_setting"
+            android:title="@string/setting" />
+        <item
+            android:id="@+id/menu_option_logout"
+            android:title="@string/logout" />
+    </group>
 </menu>
