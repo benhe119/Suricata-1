@@ -16,14 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@menu/menu_main" />
-        </activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".StatisticsActivity" />
         <activity android:name=".SettingActivity" />
     </application>

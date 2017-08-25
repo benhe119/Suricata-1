@@ -1,6 +1,5 @@
 package minux.suricata;
 
-import android.app.SearchManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,11 +11,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -27,8 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends BaseActivity {
     private ViewPager viewPager;
-    private SearchView searchView;
-    private MenuItem menuItemOption;
     private DatabaseReference databaseReference;
     private ValueEventListener velState = new ValueEventListener() { // 현재 상태(state)를 파악하는 리스너
         @Override
@@ -81,43 +76,8 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setOnSearchClickListener(new SearchView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                menuItemOption = menu.findItem(R.id.menu_option);
-                menuItemOption.setVisible(false);
-                searchView.setQueryHint("검색할 내용을 입력하세요.");
-            }
-        });
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { // 엔터를 누르면 동작하는 리스너
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchView.clearFocus();
-                searchView.setQuery("", false);
-                searchView.setIconified(true);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                invalidateOptionsMenu();
-                return false;
-            }
-        });
-
-        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -127,7 +87,6 @@ public class MainActivity extends BaseActivity {
             case android.R.id.home:
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 invalidateOptionsMenu();
-                searchView.clearFocus();
                 break;
             case R.id.menu_option_start:
                 if (state.equals("ready")) {

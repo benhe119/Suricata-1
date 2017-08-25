@@ -2,13 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_white_searchview_96"
-        android:orderInCategory="1"
-        android:title=""
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menu_option"
         android:icon="@drawable/ic_white_three_dots_96"
         android:orderInCategory="2"
