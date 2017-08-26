@@ -99,9 +99,6 @@ public class MainActivity extends BaseActivity {
                             Toast.makeText(MainActivity.this, "탐지중이 아닙니다.", Toast.LENGTH_SHORT).show();
                         }
                         break;
-                    case R.id.menu_option_statistics:
-                        startActivity(new Intent(MainActivity.this, StatisticsActivity.class));
-                        break;
                     case R.id.menu_option_setting:
                         startActivity(new Intent(MainActivity.this, SettingActivity.class));
                         break;
@@ -115,6 +112,7 @@ public class MainActivity extends BaseActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.detection));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.system));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.statistics));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -194,6 +192,8 @@ class FragmentPagerAdapter extends FragmentStatePagerAdapter {
                 return new DetectionFragment();
             case 1:
                 return new SystemFragment();
+            case 2:
+                return new StatisticsFragment();
             default:
                 return null;
         }

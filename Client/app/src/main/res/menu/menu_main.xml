@@ -8,9 +8,6 @@
             android:id="@+id/menu_option_stop"
             android:title="@string/stop" />
         <item
-            android:id="@+id/menu_option_statistics"
-            android:title="@string/statistics" />
-        <item
             android:id="@+id/menu_option_setting"
             android:title="@string/setting" />
         <item

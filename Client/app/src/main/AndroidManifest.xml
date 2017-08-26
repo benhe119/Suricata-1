@@ -17,7 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
-        <activity android:name=".StatisticsActivity" />
         <activity android:name=".SettingActivity" />
     </application>
 </manifest>
