@@ -16,7 +16,7 @@ android {
         }
 
         def versionMajor = 0
-        def versionMinor = 0
+        def versionMinor = 3
         def versionPatch = versionProps['VERSION_PATCH'].toInteger() + value // Release 할 때만 증가
         def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1 // Debug, Release 상관없이 무조건 증가
         def versionNumber = versionProps['VERSION_NUMBER'].toInteger() + value
