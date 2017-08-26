@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity {
         }
     };
     private String state;
+    private long pressedTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,13 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers();
+        } else {
+            if (pressedTime <= System.currentTimeMillis() - 2000) {
+                pressedTime = System.currentTimeMillis();
+                Toast.makeText(MainActivity.this, "'뒤로' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                finishAffinity();
+            }
         }
     }
 
