@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -57,6 +58,7 @@ public class MainActivity extends BaseActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigationview);
         navigationView.setItemIconTintList(null);
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_drawer_email)).setText(getIntent().getStringExtra("email"));
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

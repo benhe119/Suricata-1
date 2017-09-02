@@ -1,11 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent">
-    <PreferenceCategory android:title="연결">
-        <Preference
-            android:key="email"
-            android:title="이메일" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="탐지 알림">
         <SwitchPreference
             android:key="notification"

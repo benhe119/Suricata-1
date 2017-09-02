@@ -74,8 +74,7 @@ public class LoginActivity extends BaseActivity {
                 etPassword.setText("");
                 if (task.isSuccessful()) {
                     databaseReference.child("user").child(getUid()).child("logon").setValue("true");
-                    databaseReference.child("user").child(getUid()).child("preference").child("email").setValue(email);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class).putExtra("email", email));
                     Toast.makeText(LoginActivity.this, "로그인 성공!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "로그인 실패!", Toast.LENGTH_SHORT).show();

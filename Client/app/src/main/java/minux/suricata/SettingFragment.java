@@ -30,7 +30,7 @@ public class SettingFragment extends PreferenceFragment {
     private Context context;
     private DatabaseReference databaseReference;
     private Vibrator vibrator;
-    private Preference pEmail, pUpdateTime, pVersion;
+    private Preference pUpdateTime, pVersion;
     private SwitchPreference spNotification, spVibration;
     private RingtonePreference rpRingtone;
     private ListPreference lpUpdateDay;
@@ -57,7 +57,7 @@ public class SettingFragment extends PreferenceFragment {
                     updateDay = (String) newValue;
                     break;
             }
-            databaseReference.setValue(new PreferencesClass(email, notification, ringtone, vibration, updateTime, updateDay));
+            databaseReference.setValue(new PreferencesClass(notification, ringtone, vibration, updateTime, updateDay));
             updateSummary();
             return true;
         }
@@ -80,7 +80,7 @@ public class SettingFragment extends PreferenceFragment {
                             }
                             updateTime = hour + ":" + min;
                             preference.setSummary(updateTime);
-                            databaseReference.setValue(new PreferencesClass(email, notification, ringtone, vibration, updateTime, updateDay));
+                            databaseReference.setValue(new PreferencesClass(notification, ringtone, vibration, updateTime, updateDay));
                         }
                     }, 0, 0, false).show();
                     break;
@@ -96,7 +96,7 @@ public class SettingFragment extends PreferenceFragment {
                                     vibration = true;
                                     updateTime = null;
                                     updateDay = null;
-                                    databaseReference.setValue(new PreferencesClass(email, true, null, true, null, null));
+                                    databaseReference.setValue(new PreferencesClass(true, null, true, null, null));
                                     vibrator.vibrate(375);
                                     updateSummary();
                                 }
@@ -120,7 +120,6 @@ public class SettingFragment extends PreferenceFragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             PreferencesClass preferences = dataSnapshot.getValue(PreferencesClass.class);
-            email = preferences.getEmail();
             notification = preferences.getNotification();
             vibration = preferences.getVibration();
             ringtone = preferences.getRingtone();
@@ -134,7 +133,7 @@ public class SettingFragment extends PreferenceFragment {
 
         }
     };
-    private String email, ringtone, updateTime, updateDay;
+    private String ringtone, updateTime, updateDay;
     private Boolean notification, vibration;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -168,7 +167,6 @@ public class SettingFragment extends PreferenceFragment {
     }
 
     private void findPreferences() {
-        pEmail = getPreferenceScreen().findPreference("email");
         spNotification = (SwitchPreference) getPreferenceScreen().findPreference("notification");
         rpRingtone = (RingtonePreference) getPreferenceScreen().findPreference("ringtone");
         spVibration = (SwitchPreference) getPreferenceScreen().findPreference("vibration");
@@ -191,7 +189,6 @@ public class SettingFragment extends PreferenceFragment {
     }
 
     private void updateSummary() {
-        pEmail.setSummary(email);
         if (notification == null) {
             notification = false;
         }
@@ -245,7 +242,6 @@ public class SettingFragment extends PreferenceFragment {
 }
 
 class PreferencesClass {
-    private String email;
     private Boolean notification;
     private String ringtone;
     private Boolean vibration;
@@ -256,17 +252,12 @@ class PreferencesClass {
 
     }
 
-    public PreferencesClass(String email, Boolean notification, String ringtone, Boolean vibration, String updateTime, String updateDay) {
-        this.email = email;
+    public PreferencesClass(Boolean notification, String ringtone, Boolean vibration, String updateTime, String updateDay) {
         this.notification = notification;
         this.ringtone = ringtone;
         this.vibration = vibration;
         this.updateTime = updateTime;
         this.updateDay = updateDay;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public Boolean getNotification() {
