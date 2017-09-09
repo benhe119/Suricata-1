@@ -55,12 +55,21 @@ public class BaseFragment extends Fragment {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             MessageClass messageClass = dataSnapshot.getValue(MessageClass.class);
-            String date, time, priority, title, content;
+            String date, time, title, priority, content;
             date = messageClass.getDate();
             time = messageClass.getTime();
-            priority = messageClass.getPriority();
             title = messageClass.getTitle();
-            content = messageClass.getContent();
+            priority = messageClass.getPriority();
+            if (priority.equals("0")) { // 시스템 메시지
+                content = messageClass.getContent();
+            } else {
+                String protocol, sid, srcIP, dstIP;
+                protocol = messageClass.getProtocol();
+                sid = messageClass.getSid();
+                srcIP = messageClass.getSrcIP();
+                dstIP = messageClass.getDstIP();
+                content = "Protocol : " + protocol + " / SrcIP : " + srcIP;
+            }
             try {
                 addMessage(date, time, priority, title, content);
                 showNotification(setFragmentName(priority));
@@ -172,9 +181,13 @@ public class BaseFragment extends Fragment {
 class MessageClass {
     private String date;
     private String time;
-    private String priority;
+    private String sid;
     private String title;
+    private String priority;
     private String content;
+    private String protocol;
+    private String srcIP;
+    private String dstIP;
 
     public MessageClass() {
 
@@ -188,15 +201,31 @@ class MessageClass {
         return time;
     }
 
-    public String getPriority() {
-        return priority;
+    public String getSid() {
+        return sid;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getPriority() {
+        return priority;
+    }
+
     public String getContent() {
         return content;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public String getSrcIP() {
+        return srcIP;
+    }
+
+    public String getDstIP() {
+        return dstIP;
     }
 }

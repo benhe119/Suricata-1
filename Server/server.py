@@ -58,20 +58,23 @@ if __name__ == "__main__":
                     message = new_system.split(" ")
                     date = message[0]
                     time = message[2]
+                    msg = new_system.split(" - ")[1].strip("<").strip(">")
                     priority = "0"
-                    title = new_system.split(" - ")[1].strip("<").strip(">")
                     content = new_system.split("> - ")[1]
-                    data_system = {"date": date, "time": time, "priority": priority, "title": title, "content": content}
+                    data_system = {"date": date, "time": time, "title": msg, "priority": priority, "content": content}
 
                 if (new_detection != ""):
                     message = new_detection.split(" ")
                     datetime = message[0]
                     date = datetime.split("-")[0]
                     time = datetime.split("-")[1].split(".")[0]
+                    sid = message[3].split(":")[1]
+                    msg = new_detection.split("[**]")[1].split("]")[1].strip()
                     priority = message[message.index("[Priority:") + 1].split("]")[0]
-                    title = new_detection.split("[**]")[1].strip()
-                    content = "{" + new_detection.split("{")[1]
-                    data_detection = {"date": date, "time": time, "priority": priority, "title": title, "content": content}
+                    protocol = new_detection.split("{")[1].split("}")[0]
+                    srcIP = new_detection.split("}")[1].split("-")[0].split(":")[0].strip()
+                    dstIP = new_detection.split("}")[1].split(">")[1].split(":")[0].strip()
+                    data_detection = {"date": date, "time": time, "sid": sid, "title": msg, "priority": priority, "protocol": protocol, "srcIP": srcIP, "dstIP": dstIP}
 
                 if (new_system != "" and new_detection == ""):
                     database.child("message").child("system").push(data_system, raspberrypi['idToken'])

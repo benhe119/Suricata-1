@@ -10,10 +10,10 @@ android {
         versionProps.load(new FileInputStream(versionPropsFile))
 
         def versionMajor = 0
-        def versionMinor = 4
+        def versionMinor = 5
         def versionPatch = 0
         def versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1 // Debug, Release 상관없이 무조건 증가
-        def versionNumber = 3                                               // Release시 증가
+        def versionNumber = 4                                               // Release시 증가
 
         versionProps['VERSION_PATCH'] = versionPatch.toString()
         versionProps['VERSION_BUILD'] = versionBuild.toString()
